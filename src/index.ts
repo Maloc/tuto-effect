@@ -2,7 +2,7 @@ import { Effect, Layer } from "effect";
 import { PokeApi } from "./PokeApi";
 
 const MainLayer = Layer.mergeAll(
-  PokeApi.Live,
+  PokeApi.Default,
 );
 
 export const program = Effect.gen(function* () {
