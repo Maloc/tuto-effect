@@ -1,12 +1,16 @@
-import { Effect } from "effect";
+import { Effect, Layer } from "effect";
 import { PokeApi } from "./PokeApi";
 
-const program = Effect.gen(function* () {
+const MainLayer = Layer.mergeAll(
+  PokeApi.Live,
+);
+
+export const program = Effect.gen(function* () {
   const pokeApi = yield* PokeApi;
   return yield* pokeApi.getPokemon;
 });
 
-const runnable = program.pipe(Effect.provideService(PokeApi, PokeApi.Live));
+const runnable = program.pipe(Effect.provide(MainLayer));
 
 const main = runnable.pipe(
   Effect.catchTags({
